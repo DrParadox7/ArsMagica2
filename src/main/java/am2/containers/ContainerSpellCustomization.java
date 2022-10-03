@@ -40,6 +40,10 @@ public class ContainerSpellCustomization extends Container{
 
 	@Override
 	public void onContainerClosed(EntityPlayer par1EntityPlayer){
+		if (inventoryPlayer.getCurrentItem() == null) {
+			super.onContainerClosed(par1EntityPlayer);
+			return;
+		}
 		SpellUtils.instance.changeEnchantmentsForShapeGroup(inventoryPlayer.getCurrentItem());
 		super.onContainerClosed(par1EntityPlayer);
 	}

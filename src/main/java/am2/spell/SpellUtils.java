@@ -491,6 +491,7 @@ public class SpellUtils implements ISpellUtils{
 	}
 
 	public void changeEnchantmentsForShapeGroup(ItemStack stack){
+		if (stack==null) return;
 		ItemStack constructed = constructSpellStack(stack);
 		int looting = 0;
 		int silkTouch = 0;
@@ -524,6 +525,7 @@ public class SpellUtils implements ISpellUtils{
 	 * @return An ItemStack that contains a classic spell definition that the casting system can handle.  This is what should be passed to the spell helper class.
 	 */
 	public ItemStack constructSpellStack(ItemStack stack){
+		if (stack==null) return null;
 		if (!stack.hasTagCompound() || !stack.stackTagCompound.hasKey(CurShapeGroup_Identifier))
 			return stack.copy();
 

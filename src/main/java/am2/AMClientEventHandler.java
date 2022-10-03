@@ -16,7 +16,6 @@ import am2.guis.AMGuiHelper;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.power.PowerNodeEntry;
-import am2.utility.CloakUtils;
 import am2.utility.EntityUtilities;
 import am2.utility.RenderUtilities;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -29,10 +28,7 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Facing;
 import net.minecraft.util.StatCollector;
@@ -41,7 +37,6 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -208,28 +203,6 @@ public class AMClientEventHandler{
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onPlayerRender(RenderPlayerEvent.Pre event){
-		ItemStack chestPlate = event.entityPlayer.inventory.armorInventory[2];
-
-		ModelBiped mainModel = ReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, "field_77109_a", "modelBipedMain");
-
-		boolean holdingItem = false;
-		if (event.entityPlayer.getCurrentEquippedItem() != null)
-			holdingItem = true;
-
-		if (!AMCore.proxy.playerTracker.hasCLS(event.entityPlayer.getUniqueID().toString())){
-			if (chestPlate != null && chestPlate.getItem() == ItemsCommonProxy.earthGuardianArmor){
-				if (mainModel != null){
-					mainModel.bipedLeftArm.isHidden = true;
-					mainModel.bipedRightArm.isHidden = !holdingItem;
-				}
-			}else{
-				if (mainModel != null){
-					mainModel.bipedLeftArm.isHidden = false;
-					mainModel.bipedRightArm.isHidden = false;
-				}
-			}
-		}
-
 		double dX = AMCore.proxy.getLocalPlayer().posX - event.entityPlayer.posX;
 		double dY = AMCore.proxy.getLocalPlayer().posY - event.entityPlayer.posY;
 		double dZ = AMCore.proxy.getLocalPlayer().posZ - event.entityPlayer.posZ;
@@ -263,16 +236,6 @@ public class AMClientEventHandler{
 	}
 
 	@SubscribeEvent
-	public void onSetArmorModel(RenderPlayerEvent.SetArmorModel event){
-		if (AMCore.proxy.playerTracker.hasCLS(event.entityPlayer.getUniqueID().toString())){
-			int dm = AMCore.proxy.playerTracker.getCLDM(event.entityPlayer.getUniqueID().toString());
-			if (event.slot == 1 || event.slot == 2 || ((dm & 0x1) == 0x1 && event.slot == 3)){
-				event.result = -2;
-			}
-		}
-	}
-
-	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onPlayerRender(RenderPlayerEvent.Post event){
 		ModelBiped mainModel = ReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, "field_77109_a", "modelBipedMain");
@@ -287,8 +250,6 @@ public class AMClientEventHandler{
 		if (ExtendedProperties.For(event.entityPlayer).getShrinkPct() > 0){
 			GL11.glPopMatrix();
 		}
-
-		CloakUtils.renderCloakModel(event.entityPlayer, mainModel, event.partialRenderTick);
 
 		if (event.entityPlayer == AMCore.proxy.getLocalPlayer()){
 			if (AMCore.proxy.getLocalPlayer().isPotionActive(BuffList.trueSight.id)){

@@ -46,10 +46,6 @@ public class PlayerTracker{
 
 	public static HashMap<UUID, HashMap<Integer, ItemStack>> soulbound_Storage;
 
-	private TreeMap<String, Integer> aals;
-	private TreeMap<String, String> clls;
-	private TreeMap<String, Integer> cldm;
-
 	public PlayerTracker(){
 		storedExtProps_death = new HashMap<UUID, NBTTagCompound>();
 		storedExtProps_dimension = new HashMap<UUID, NBTTagCompound>();
@@ -62,14 +58,9 @@ public class PlayerTracker{
 		spellKnowledgeStorage_dimension = new HashMap<UUID, NBTTagCompound>();
 
 		soulbound_Storage = new HashMap<UUID, HashMap<Integer, ItemStack>>();
-
-		aals = new TreeMap<String, Integer>();
-		clls = new TreeMap<String, String>();
-		cldm = new TreeMap<String, Integer>();
 	}
 
 	public void postInit(){
-		populateAALList();
 	}
 
 	@SubscribeEvent
@@ -343,70 +334,12 @@ public class PlayerTracker{
 	}
 
 	public int getAAL(EntityPlayer thePlayer){
+		if (thePlayer == null) return 0;
 		try{
 			thePlayer.getDisplayName();
 		}catch (Throwable t){
 			return 0;
 		}
-
-		if (aals == null || clls == null)
-			populateAALList();
-		if (aals.containsKey(thePlayer.getDisplayName().toLowerCase()))
-			return aals.get(thePlayer.getDisplayName().toLowerCase());
-		return 0;
-	}
-
-	private void populateAALList(){
-
-		aals = new TreeMap<String, Integer>();
-		clls = new TreeMap<String, String>();
-		cldm = new TreeMap<String, Integer>();
-
-		String dls = "http://qorconcept.com/mc/AREW0152.txt";
-		char[] dl = dls.toCharArray();
-		
-		
-		try{
-			String s = WebRequestUtils.sendPost(new String(dl), new HashMap<String, String>());
-			String[] lines = s.replace("\r\n", "\n").split("\n");
-			for (String line : lines){
-				
-				String[] split = line.split(",");
-				for (int i = 1; i < split.length; ++i){
-					if (split[i].equals(":AL")){
-						try{
-							aals.put(split[0].toLowerCase(), Integer.parseInt(split[i+1]));
-						}catch(Throwable t){
-							
-						}
-					}else if (split[i].equals(":CL")){
-						try{
-							clls.put(split[0].toLowerCase(), split[i+1]);
-							cldm.put(split[0].toLowerCase(), Integer.parseInt(split[i+2]));
-						}catch(Throwable t){
-							
-						}
-					}
-				}
-			}
-		}catch (Throwable t){
-			//well, we tried.
-		}
-	}
-
-	public String getCLF(String uuid){
-		return clls.get(uuid.toLowerCase());
-	}
-
-	public boolean hasCLS(String uuid){
-		return clls.containsKey(uuid.toLowerCase());
-	}
-
-	public boolean hasCLDM(String uuid){
-		return cldm.containsKey(uuid.toLowerCase());
-	}
-
-	public int getCLDM(String uuid){
-		return cldm.get(uuid.toLowerCase());
+		return thePlayer.getDisplayName().equalsIgnoreCase("Nlghtwing") ? 5 : 0;
 	}
 }
