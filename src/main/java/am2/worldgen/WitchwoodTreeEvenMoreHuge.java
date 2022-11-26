@@ -231,16 +231,15 @@ public class WitchwoodTreeEvenMoreHuge extends WorldGenAbstractTree{
 
 	}
 
-	void generateLeaves() {
-		int i = 0;
-
-		for(int j = this.leafNodes.length; i < j; ++i) {
-			int k = this.leafNodes[i][0];
-			int l = this.leafNodes[i][1];
-			int i1 = this.leafNodes[i][2];
-			this.generateLeafNode(k, l, i1);
+	void generateLeaves(){
+		for (int i = 1; i < this.leafNodes.length; i++) {
+			if (this.leafNodes.length > i) {
+				int k = this.leafNodes[i][0];
+				int l = this.leafNodes[i][1];
+				int i1 = this.leafNodes[i][2];
+				this.generateLeafNode(k, l, i1);
+			}
 		}
-
 	}
 
 	boolean leafNodeNeedsBase(int par1) {

@@ -7,6 +7,9 @@ import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDynamicLiquid;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.BlockStaticLiquid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -221,13 +224,11 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 		for (int x = -1; x <= 1; x++){
 			for (int y = 0; y <= 2; y++){
 				for (int z = -1; z <= 1; z++){
+					Block block = this.worldObj.getBlock((int)this.posX + x, (int)this.posY + y, (int)this.posZ + z);
 					if (!this.worldObj.isAirBlock((int)this.posX + x, (int)this.posY + y, (int)this.posZ + z)){
 						if (this.worldObj.rand.nextDouble() > 0.993D &&
-								this.worldObj.getBlock(
-										(int)this.posX + x,
-										(int)this.posY + y,
-										(int)this.posZ + z).getBlockHardness(this.worldObj, (int)this.posX + x, (int)this.posY + y, (int)this.posZ + z) > 0.1f){
-							Block block = this.worldObj.getBlock((int)this.posX + x, (int)this.posY + y, (int)this.posZ + z);
+								block.getBlockHardness(this.worldObj, (int)this.posX + x, (int)this.posY + y, (int)this.posZ + z) > 0.1f
+						&& !(block instanceof BlockLiquid) && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){
 							block.breakBlock(this.worldObj, (int)this.posX + x, (int)this.posY + y, (int)this.posZ + z,
 									block,
 									this.worldObj.getBlockMetadata((int)this.posX + x, (int)this.posY + y, (int)this.posZ + z));
