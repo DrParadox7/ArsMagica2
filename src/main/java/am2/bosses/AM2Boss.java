@@ -1,10 +1,12 @@
 package am2.bosses;
 
 import am2.AMCore;
+import am2.blocks.BlocksCommonProxy;
 import am2.buffs.BuffList;
 import am2.entities.EntityLightMage;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
+import am2.spell.components.Dig;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
@@ -20,10 +22,13 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEntityMultiPart{
 
@@ -39,6 +44,15 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 		this.stepHeight = 1.02f;
 		ExtendedProperties.For(this).setMagicLevelWithMana(50);
 		initAI();
+		disallowedBlocks = new ArrayList<Block>();
+		disallowedBlocks.add(Blocks.bedrock);
+		disallowedBlocks.add(Blocks.command_block);
+		disallowedBlocks.add(BlocksCommonProxy.everstone);
+
+		for (String i : AMCore.config.getDigBlacklist()){
+			if (i == null || i == "") continue;
+			disallowedBlocks.add(Block.getBlockFromName(i.replace("tile.", "")));
+		}
 	}
 
 	//Bosses should be able to follow players through doors and hallways, so setSize is overridden to instead add a
@@ -228,7 +242,7 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 					if (!this.worldObj.isAirBlock((int)this.posX + x, (int)this.posY + y, (int)this.posZ + z)){
 						if (this.worldObj.rand.nextDouble() > 0.993D &&
 								block.getBlockHardness(this.worldObj, (int)this.posX + x, (int)this.posY + y, (int)this.posZ + z) > 0.1f
-						&& !(block instanceof BlockLiquid) && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){
+						&& !(block instanceof BlockLiquid) && !(disallowedBlocks.contains(block)) && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){
 							block.breakBlock(this.worldObj, (int)this.posX + x, (int)this.posY + y, (int)this.posZ + z,
 									block,
 									this.worldObj.getBlockMetadata((int)this.posX + x, (int)this.posY + y, (int)this.posZ + z));
@@ -244,6 +258,8 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 
 		super.onUpdate();
 	}
+
+	private ArrayList<Block> disallowedBlocks = new ArrayList<Block>();
 
 	@Override
 	public boolean allowLeashing(){
