@@ -11,8 +11,6 @@ import java.util.Random;
 public class BiomeWitchwoodForest extends BiomeGenBase{
 
 	public static final BiomeGenBase instance = new BiomeWitchwoodForest(AMCore.config.getWitchwoodForestID()).setBiomeName("WitchwoodForest");
-	private static final WitchwoodTreeHuge hugeTree = new WitchwoodTreeHuge(true);
-	private static final WitchwoodTreeEvenMoreHuge evenMoreHugeTree = new WitchwoodTreeEvenMoreHuge(true);
 
 	public BiomeWitchwoodForest(int par1){
 		super(par1);
@@ -46,6 +44,6 @@ public class BiomeWitchwoodForest extends BiomeGenBase{
 	@Override
 	public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
 	{
-	  return (WorldGenAbstractTree)(p_150567_1_.nextInt(3) == 0 ? hugeTree : evenMoreHugeTree);
+	  return (WorldGenAbstractTree)(p_150567_1_.nextInt(AMCore.config.spawnHugeTrees() ? 3 : 1) == 0 ? new WitchwoodTreeHuge(true) : new WitchwoodTreeEvenMoreHuge(true));
 	}
 }

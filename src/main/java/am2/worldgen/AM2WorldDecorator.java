@@ -40,10 +40,6 @@ public class AM2WorldDecorator implements IWorldGenerator{
 	private ArrayList<Integer> dimensionBlacklist = new ArrayList<Integer>();
 
 
-	//trees
-	private final WitchwoodTreeHuge witchwoodTree;
-	private final WitchwoodTreeEvenMoreHuge witchwoodTreeEvenMoreHuge;
-
 	//pools
 	private final AM2PoolGen pools;
 	private final WorldGenEssenceLakes lakes;
@@ -90,9 +86,6 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		wakebloom = new AM2FlowerGen(BlocksCommonProxy.wakebloom, 0);
 		aum = new AM2FlowerGen(BlocksCommonProxy.aum, 0);
 		tarmaRoot = new AM2FlowerGen(BlocksCommonProxy.tarmaRoot, 0);
-
-		witchwoodTree = new WitchwoodTreeHuge(true);
-		witchwoodTreeEvenMoreHuge = new WitchwoodTreeEvenMoreHuge(true);
 
 		pools = new AM2PoolGen();
 
@@ -152,7 +145,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		}
 
 		if (random.nextInt(witchChance) == 0){
-			generateTree(random.nextInt(6) == 0 ? witchwoodTree : witchwoodTreeEvenMoreHuge, world, random, chunkX, chunkZ);
+			generateTree(random.nextInt(AMCore.config.spawnHugeTrees() ? 6 : 1) == 0 ? new WitchwoodTreeHuge(true) : new WitchwoodTreeEvenMoreHuge(true), world, random, chunkX, chunkZ);
 		}
 
 		if (AMCore.config.getPoolFrequency() > 0){
