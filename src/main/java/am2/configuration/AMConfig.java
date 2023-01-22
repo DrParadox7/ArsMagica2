@@ -40,6 +40,7 @@ public class AMConfig extends Configuration{
 	private final String KEY_DamageMultiplier = "DamageMultiplier";
 
 	private final String KEY_UseSpecialRenderers = "Use_Special_Renderers";
+	private final String KEY_SpawnHugeTrees = "SpawnHugeTrees";
 	private final String KEY_LowResParticles = "Low_Res_Particles";
 	private final String KEY_FrictionCoefficient = "FrictionCoefficient";
 
@@ -77,32 +78,32 @@ public class AMConfig extends Configuration{
 	private final String KEY_EnableWitchwoodForest = "Enable_Witchwood_Forests";
 
 	private final String KEY_allowCreativeTargets = "Allow_Creative_Targets";
-	
+
 	private final String KEY_WitchwoodFrequency = "WitchwoodFrequency";
 	private final String KEY_EssenceLakeFrequency = "EssenceLakeFrequency";
 	private final String KEY_WakebloomFrequency = "WakebloomFrequency";
 	private final String KEY_FlowerGenAttempts = "FlowerGenAttempts";
-	
+
 	private final String KEY_VinteumMin = "VinteumMinHeight";
 	private final String KEY_VinteumMax = "VinteumMaxHeight";
 	private final String KEY_VinteumVein = "VinteumVeinSize";
 	private final String KEY_VinteumFreq = "VinteumFrequency";
-	
+
 	private final String KEY_ChimeriteMin = "ChimeriteMinHeight";
 	private final String KEY_ChimeriteMax = "ChimeriteMaxHeight";
 	private final String KEY_ChimeriteVein = "ChimeriteVeinSize";
 	private final String KEY_ChimeriteFreq = "ChimeriteFrequency";
-	
+
 	private final String KEY_TopazMin = "TopazMinHeight";
 	private final String KEY_TopazMax = "TopazMaxHeight";
 	private final String KEY_TopazVein = "TopazVeinSize";
 	private final String KEY_TopazFreq = "TopazFrequency";
-	
+
 	private final String KEY_SunstoneMin = "SunstoneMinHeight";
 	private final String KEY_SunstoneMax = "SunstoneMaxHeight";
 	private final String KEY_SunstoneVein = "SunstoneVeinSize";
 	private final String KEY_SunstoneFreq = "SunstoneFrequency";
-	
+
 	/**
 	 * Beta Particles
 	 **/
@@ -182,6 +183,7 @@ public class AMConfig extends Configuration{
 	private boolean NPCSpellsDamageTerrain;
 	private float DamageMultiplier;
 	private boolean UseSpecialRenderers;
+	private boolean SpawnHugeTrees;
 	private boolean DisplayManaInInventory;
 	private boolean IsImbueEnabled;
 	private boolean RetroWorldGen;
@@ -192,7 +194,6 @@ public class AMConfig extends Configuration{
 	private int everstoneRepairRate;
 
 	private int witchwoodForestID;
-
 	private float FrictionCoefficient;
 
 	private int secondarySkillTreeTierCap;
@@ -201,7 +202,7 @@ public class AMConfig extends Configuration{
 	private int[] worldgenBlacklist;
 	private boolean enableWitchwoodForest;
 	private int witchwoodForestRarity;
-	
+
 	private boolean allowCreativeTargets;
 
 	private String[] appropriationBlockBlacklist;
@@ -255,27 +256,27 @@ public class AMConfig extends Configuration{
 	private boolean allowCompendiumUpdates;
 	private boolean allowVersionChecks;
 	private boolean canDryadsDespawn;
-	
+
 	private int witchwoodFrequency;
 	private int poolFrequency;
 	private int wakebloomFrequency;
 	private int flowerGenAttempts;
-	
+
 	private int vinteumMinHeight;
 	private int vinteumMaxHeight;
 	private int vinteumVeinSize;
 	private int vinteumFrequency;
-	
+
 	private int chimeriteMinHeight;
 	private int chimeriteMaxHeight;
 	private int chimeriteVeinSize;
 	private int chimeriteFrequency;
-	
+
 	private int topazMinHeight;
 	private int topazMaxHeight;
 	private int topazVeinSize;
 	private int topazFrequency;
-	
+
 	private int sunstoneMinHeight;
 	private int sunstoneMaxHeight;
 	private int sunstoneVeinSize;
@@ -300,6 +301,7 @@ public class AMConfig extends Configuration{
 		DamageMultiplier = (float)get(CATEGORY_GENERAL, KEY_DamageMultiplier, 1.0, "How much the damage in Ars Magica is scaled.").getDouble(1.0);
 
 		UseSpecialRenderers = get(CATEGORY_GENERAL, KEY_UseSpecialRenderers, true, "Render spell effects on equipped scrolls rather than the scroll itself (only applies to the in-game one, the one on your hotbar remains unchanged)").getBoolean(true);
+		SpawnHugeTrees =  get(CATEGORY_GENERAL, KEY_SpawnHugeTrees, true, "Spawn big witchwood trees. If disabled, will only spawn normal witchwood trees.").getBoolean(true);
 
 		boolean def = !Loader.isModLoaded("NotEnoughItems");
 		DisplayManaInInventory = get(CATEGORY_GENERAL, KEY_DisplayManaInInventory, def, "This will toggle mana display on and off in your inventory.  Default 'O' key in game.").getBoolean(def);
@@ -378,32 +380,32 @@ public class AMConfig extends Configuration{
 		savePowerOnWorldSave = get(CATEGORY_GENERAL, KEY_SavePowerOnWorldSave, true, "Set this to false if you are experiencing tick lage due to AM2 saving power data alongside the world save.  This will instead cache the power data in memory to be saved later.  This comes with more risk in the event of a crash, and a larger memory footprint, but increased performance. Can be used alongside chunk unload save config. Power data is still always saved at world unload (server shutdown).").getBoolean(true);
 
 		canDryadsDespawn = get(CATEGORY_MOBS, KEY_CanDryadsDespawn, true, "Set this to false if you don't want dryads to despawn.").getBoolean(true);
-		
+
 		witchwoodFrequency = get(CATEGORY_GENERAL, KEY_WitchwoodFrequency, 35, "The chance of a witchwood tree generating. Lower numbers give more trees.").getInt(35);
 		poolFrequency = get(CATEGORY_GENERAL, KEY_EssenceLakeFrequency, 25, "The chance of an etherium pool generating. Lower numbers give more pools.").getInt(25);
 		wakebloomFrequency = get(CATEGORY_GENERAL, KEY_WakebloomFrequency, 10, "The chance of a wakebloom generating. Lower numbers give more wakeblooms, and anything less than 7 will attempt to generate in every ocean chunk.").getInt(10);
 		flowerGenAttempts = get(CATEGORY_GENERAL, KEY_FlowerGenAttempts, 8, "The number of flower generation attempts made per chunk. Higher numbers give more flowers, but can slow worldgen.").getInt(8);
-		
+
 		vinteumMinHeight = get(CATEGORY_GENERAL, KEY_VinteumMin, 10, "The minimum height for vinteum to generate.").getInt(10);
 		vinteumMaxHeight = get(CATEGORY_GENERAL, KEY_VinteumMax, 45, "The maximum height for vinteum to generate.").getInt(45);
 		vinteumVeinSize = get(CATEGORY_GENERAL, KEY_VinteumVein, 4, "The number of blocks in a vein of vinteum.").getInt(4);
 		vinteumFrequency = get(CATEGORY_GENERAL, KEY_VinteumFreq, 6, "The number of vinteum veins generated per chunk.").getInt(6);
-		
+
 		chimeriteMinHeight = get(CATEGORY_GENERAL, KEY_ChimeriteMin, 10, "The minimum height for chimerite to generate.").getInt(10);
 		chimeriteMaxHeight = get(CATEGORY_GENERAL, KEY_ChimeriteMax, 80, "The maximum height for chimerite to generate.").getInt(80);
 		chimeriteVeinSize = get(CATEGORY_GENERAL, KEY_ChimeriteVein, 6, "The number of blocks in a vein of chimerite.").getInt(6);
 		chimeriteFrequency = get(CATEGORY_GENERAL, KEY_ChimeriteFreq, 8, "The number of chimerite veins generated per chunk.").getInt(6);
-		
+
 		topazMinHeight = get(CATEGORY_GENERAL, KEY_TopazMin, 10, "The minimum height for topaz to generate.").getInt(10);
 		topazMaxHeight = get(CATEGORY_GENERAL, KEY_TopazMax, 80, "The maximum height for topaz to generate.").getInt(80);
 		topazVeinSize = get(CATEGORY_GENERAL, KEY_TopazVein, 6, "The number of blocks in a vein of topaz.").getInt(6);
 		topazFrequency = get(CATEGORY_GENERAL, KEY_TopazFreq, 8, "The number of topaz veins generated per chunk.").getInt(8);
-		
+
 		sunstoneMinHeight = get(CATEGORY_GENERAL, KEY_SunstoneMin, 5, "The minimum height for sunstone to generate.").getInt(5);
 		sunstoneMaxHeight = get(CATEGORY_GENERAL, KEY_SunstoneMax, 120, "The maximum height for sunstone to generate.").getInt(120);
 		sunstoneVeinSize = get(CATEGORY_GENERAL, KEY_SunstoneVein, 3, "The number of blocks in a vein of sunstone.").getInt(3);
 		sunstoneFrequency = get(CATEGORY_GENERAL, KEY_SunstoneFreq, 20, "The number of sunstone veins generated per chunk.").getInt(20);
-		
+
 		enderAffinityAbilityCooldown = get(CATEGORY_GENERAL, KEY_EnderAffinityAbilityCooldown, 100, "Set this to the number of ticks between ender affinity teleports.").getInt();
 
 		String digBlacklistString = get(CATEGORY_GENERAL, KEY_DigDisabledBlocks, "", "Comma-separated list of block IDs that dig cannot break.  If a block is flagged as unbreackable in code, Dig will already be unable to break it.  There is no need to set it here (eg, bedrock, etc.).  Dig also makes use of Forge block harvest checks.  This is mainly for fine-tuning.").getString();
@@ -512,6 +514,10 @@ public class AMConfig extends Configuration{
 
 	public boolean useSpecialRenderers(){
 		return UseSpecialRenderers;
+	}
+
+	public boolean spawnHugeTrees(){
+		return SpawnHugeTrees;
 	}
 
 	public boolean displayManaInInventory(){
@@ -730,83 +736,83 @@ public class AMConfig extends Configuration{
 	public boolean getAllowCreativeTargets(){
 		return this.allowCreativeTargets;
 	}
-	
+
 	public int getWitchwoodFrequency(){
 		return this.witchwoodFrequency;
 	}
-	
+
 	public int getPoolFrequency(){
 		return this.poolFrequency;
 	}
-	
+
 	public int getWakebloomFrequency(){
 		return this.wakebloomFrequency;
 	}
-	
+
 	public int getFlowerGenAttempts(){
 		return this.flowerGenAttempts;
 	}
-	
+
 	public int getVinteumMinHeight(){
 		return this.vinteumMinHeight;
 	}
-	
+
 	public int getVinteumMaxHeight(){
 		return this.vinteumMaxHeight;
 	}
-	
+
 	public int getVinteumVeinSize(){
 		return this.vinteumVeinSize;
 	}
-	
+
 	public int getVinteumFrequency(){
 		return this.vinteumFrequency;
 	}
-	
+
 	public int getChimeriteMinHeight(){
 		return this.chimeriteMinHeight;
 	}
-	
+
 	public int getChimeriteMaxHeight(){
 		return this.chimeriteMaxHeight;
 	}
-	
+
 	public int getChimeriteVeinSize(){
 		return this.chimeriteVeinSize;
 	}
-	
+
 	public int getChimeriteFrequency(){
 		return this.chimeriteFrequency;
 	}
-	
+
 	public int getTopazMinHeight(){
 		return this.vinteumMinHeight;
 	}
-	
+
 	public int getTopazMaxHeight(){
 		return this.vinteumMaxHeight;
 	}
-	
+
 	public int getTopazVeinSize(){
 		return this.vinteumVeinSize;
 	}
-	
+
 	public int getTopazFrequency(){
 		return this.vinteumFrequency;
 	}
-	
+
 	public int getSunstoneMinHeight(){
 		return this.sunstoneMinHeight;
 	}
-	
+
 	public int getSunstoneMaxHeight(){
 		return this.sunstoneMaxHeight;
 	}
-	
+
 	public int getSunstoneVeinSize(){
 		return this.sunstoneVeinSize;
 	}
-	
+
 	public int getSunstoneFrequency(){
 		return this.sunstoneFrequency;
 	}
@@ -940,8 +946,8 @@ public class AMConfig extends Configuration{
 		int freeID = -1;
 		for(int i = 1; i < Potion.potionTypes.length; i++){
 			if(Potion.potionTypes[i] == null){
-			  freeID = i;
-			  break;
+				freeID = i;
+				break;
 			}
 		}
 		return freeID;
@@ -950,7 +956,7 @@ public class AMConfig extends Configuration{
 	public int getConfigurablePotionID(String id, int default_value){
 		// because we auto-configure, default_value is ignored
 		int val = getNextFreePotionID();
-		
+
 		if(val == -1 && !hasKey(CATEGORY_POTIONS, id)){
 			LogHelper.error("Cannot find a free potion ID for the %s effect. This will cause severe problems!", id);
 			LogHelper.error("Effect %s has been assigned to a default of potion ID 1 (movement speed). Erroneous behaviour *will* result.", id);
