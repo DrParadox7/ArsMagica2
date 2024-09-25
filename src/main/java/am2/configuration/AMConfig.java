@@ -54,6 +54,7 @@ public class AMConfig extends Configuration{
 
 	private final String KEY_GetRandomSpellNames = "suggest_spell_names";
 	private final String KEY_DisarmAffectsPlayers = "disarm_affects_players";
+	private final String KEY_NewBurnoutEffects = "BurnoutEffects";
 
 	private final String KEY_MMFBiomeID = "MMFBiomeID";
 	private final String KEY_MMFDimensionID = "MMFDimensionID";
@@ -217,6 +218,7 @@ public class AMConfig extends Configuration{
 	private boolean witchwoodLeafParticles;
 	private boolean alternativeStart;
 	private boolean debugVortex;
+	private boolean BurnoutEffects;
 	private int everstoneRepairRate;
 
 	private int witchwoodForestID;
@@ -417,9 +419,10 @@ public class AMConfig extends Configuration{
 
 		hazardousGateways = get(CATEGORY_GENERAL, KEY_HazardousGateways, true, "Set this to false in order to disable gateways sending you partial distances if you don't have enough power.").getBoolean(true);
 
-		enableSpatialVortex = get(CATEGORY_GENERAL, KEY_EnableSpatialVortex, true, "Set this to false in order to Spatial Vortex.").getBoolean(true);
+		enableSpatialVortex = get(CATEGORY_GENERAL, KEY_EnableSpatialVortex, true, "Set this to false in order to  disable Spatial Vortex.").getBoolean(true);
 		ArmorXPInfusionFactor = get(CATEGORY_GENERAL, KEY_ArmorXPInfusionFactor, 1.0, "Alter this to change the rate at which armor XP infuses.").getDouble();
 		disarmAffectsPlayers = get(CATEGORY_GENERAL, KEY_DisarmAffectsPlayers, true, "If false, disarm won't work on players.").getBoolean(true);
+		BurnoutEffects = get(CATEGORY_GENERAL,KEY_NewBurnoutEffects,true,"Set this to false to disable new Burnout effects.").getBoolean(true);
 		manaCap = get(CATEGORY_GENERAL, KEY_ManaCap, 0, "Sets the maximum mana a player can have (0 for no cap)").getDouble(0);
 
 		digBreaksTileEntities = get(CATEGORY_GENERAL, KEY_DigBreaksTEs, true, "Can the dig component break blocks that have a tile entity?").getBoolean(true);
@@ -805,6 +808,9 @@ public class AMConfig extends Configuration{
 
 	public boolean getDisarmAffectsPlayers(){
 		return disarmAffectsPlayers;
+	}
+	public boolean getBurnoutEffects(){
+		return BurnoutEffects;
 	}
 
 	public double getManaCap(){

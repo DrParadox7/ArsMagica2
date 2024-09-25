@@ -3,7 +3,9 @@ package am2.enchantments;
 import am2.api.enchantment.IAMEnchantmentHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
 
 import java.util.Map;
 
@@ -64,4 +66,19 @@ public class AMEnchantmentHelper implements IAMEnchantmentHelper{
 			EnchantmentHelper.setEnchantments(map, dest);
 		}
 	}
+	public static int getArmorMagicResistLevel(EntityPlayer player){
+		int sum = 0;
+		for (ItemStack stack : player.inventory.armorInventory) {
+			sum += getMagicResistLevel(stack);
+		}
+		return sum;
+	}
+	@SuppressWarnings("unchecked")
+	private static int getMagicResistLevel(ItemStack stack) {
+		if (stack == null) return 0;
+		Map<Integer, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+		Integer result = enchantments.get(AMEnchantments.magicResist.effectId);
+		return result != null ? result : 0;
+	}
+
 }

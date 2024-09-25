@@ -4,6 +4,8 @@ import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.bosses.ai.*;
 import am2.buffs.BuffList;
+import am2.damage.DamageSourceFire;
+import am2.damage.DamageSourceFrost;
 import am2.damage.DamageSources;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
@@ -55,6 +57,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian10 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(100);
 			}
 		}
 	}
@@ -88,7 +91,13 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		}
 		return damageAmt;
 	}
-
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
+		if (source.isMagicDamage()){
+			Hurttime = 15;
+		}
+		return Hurttime;
+	}
 	@Override
 	public void onUpdate(){
 		super.onUpdate();

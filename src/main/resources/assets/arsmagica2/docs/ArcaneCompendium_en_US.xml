@@ -249,7 +249,7 @@
     <component id="Dispel">
       <name>Dispel</name>
       <desc>Creating a localized field of deficit, you can remove a number of effects on your target.  Dispel also wreaks havoc on summoned creatures, banishing them back into the ether.</desc>
-      <modifiedBy></modifiedBy>
+      <modifiedBy>BUFF_POWER</modifiedBy>
     </component>
     <component id="Bless">
       <name>Bless</name>
@@ -636,12 +636,12 @@
     </modifier>
     <modifier id="Lunar">
       <name>Lunar</name>
-      <desc>Powers up your spell at night.  The closer to midnight time is (Starting at Dusk), the more damage and healing the spell does.  After midnight, as dawn approaches, the spell will become weaker.  Range, Duration, and Radius are all increased where applicable based on the phase of the moon (more power approaching full moon).  More powerful than Solar due to nights not lasting as long as day.</desc>
+      <desc>Power up your spells depending on your current stored mana. Time of day and dimension affect your mana cost, the closer to midnight you are lower the cost, cheapest in the End.  </desc>
       <modifies>DAMAGE,HEALING,RANGE,RADIUS,DURATION</modifies>
     </modifier>
     <modifier id="Solar">
       <name>Solar</name>
-      <desc>Powers up your spell during the day.  The closer to noon time is (Starting at Dawn), the more damage and healing the spell does.  After noon, as dusk approaches, the spell will become weaker.  Range, Duration, and Radius are all increased where applicable based on the phase of the moon (more power approaching new moon).</desc>
+      <desc>Power up your spells depending on your current burnout, the more burnout you are,your spells become more powerful. Time of the day and dimesion affect your mana cost, the closer to midday you are lower your cost, cheapest in the Nether.  </desc>
       <modifies>DAMAGE,HEALING,RANGE,RADIUS,DURATION</modifies>
     </modifier>
     <modifier id="Piercing">
@@ -868,7 +868,7 @@
       </subitem>
       <subitem id="itemOre@19">
         <name>Imbued Moonflower</name>
-        <desc>A rare and unique magical flower, only harvestable during full moons.  Its dynamic power, as one could guess, comes from the End, as the link between the two worlds is at its strongest during the latter.</desc>
+        <desc>A rare and unique magical flower,grown from moonflower seed,  only harvestable during full moons.  Its dynamic power, as one could guess, comes from the End, as the link between the two worlds is at its strongest during the latter.</desc>
         <relatedEntries></relatedEntries>
       </subitem>
       <subitem id="itemOre@20">

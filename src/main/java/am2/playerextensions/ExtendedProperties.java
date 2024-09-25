@@ -607,7 +607,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 		if (currentFatigue >= getMaxFatigue()) {
 			currentFatigue = getMaxFatigue() - 1;
 			// BURNOUT NEGATIVE EFFECTS
-			if (this.entity instanceof EntityPlayer && !((EntityPlayer)this.entity).capabilities.isCreativeMode){
+			if (this.entity instanceof EntityPlayer && !((EntityPlayer)this.entity).capabilities.isCreativeMode && AMCore.config.getBurnoutEffects()){
 				Random random = new Random();
 				if (currentFatigue > 50){ // lvl 5+
 					int roll = random.nextInt(4);
@@ -1519,9 +1519,9 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 		this.magicXP += amt;
 		float xpToLevel = getXPToNextLevel();
 		if (magicXP >= xpToLevel){
-			magicXP = 0;
-
+			float NewMagicXP = magicXP - xpToLevel;
 			setMagicLevelWithMana(magicLevel + 1);
+			magicXP = 0;
 
 			if (this.entity instanceof EntityPlayer && magicLevel % 2 == 0){
 				EntityPlayer ent = (EntityPlayer)this.entity;
@@ -1533,6 +1533,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 					SkillData.For(ent).incrementSpellPoints(SkillPointTypes.RED);
 
 			}
+			addMagicXP(NewMagicXP);
 			this.entity.worldObj.playSoundAtEntity(entity, "arsmagica2:misc.event.magic_level_up", 1, 1);
 		}
 		setUpdateFlag(UPD_MAGIC_LEVEL);

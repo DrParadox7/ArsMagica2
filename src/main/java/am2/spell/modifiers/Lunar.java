@@ -52,17 +52,19 @@ public class Lunar implements ISpellModifier{
 		World world = caster.worldObj;
 
 		float multiplier = 3.5f;
-
-		if (caster.dimension == 1)
-			multiplier = 2.0f;
+		if (caster == null)
+			return quantity * multiplier;
+		else if (caster.dimension == 1)
+				multiplier = 2.0f;
 		else if (!world.provider.hasNoSky && !world.isDaytime()){
-			double time = world.getWorldTime() % 24000;
+				double time = world.getWorldTime() % 24000;
 
-			//Returns a decreasing value between 3.4 and 2.5 as it approaches midnight.
-			multiplier = (float)Math.round((
-					1.5 + Math.exp(0.13 * (Math.abs((time - 18000) / 1000)))
-			) * 100) / 100;
-		}
+				//Returns a decreasing value between 3.4 and 2.5 as it approaches midnight.
+				multiplier = (float)Math.round((
+						1.5 + Math.exp(0.13 * (Math.abs((time - 18000) / 1000)))
+				) * 100) / 100;
+			}
+
 		return quantity * multiplier;
 	}
 	@Override

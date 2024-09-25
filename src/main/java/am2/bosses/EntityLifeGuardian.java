@@ -5,6 +5,8 @@ import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.EntityAISummonAllies;
 import am2.bosses.ai.ISpellCastCallback;
+import am2.damage.DamageSourceFire;
+import am2.damage.DamageSourceFrost;
 import am2.entities.EntityDarkling;
 import am2.entities.EntityEarthElemental;
 import am2.entities.EntityFireElemental;
@@ -54,6 +56,7 @@ public class EntityLifeGuardian extends AM2Boss{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian5 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(50);
 			}
 		}
 	}
@@ -94,7 +97,11 @@ public class EntityLifeGuardian extends AM2Boss{
 		}
 		return damageAmt;
 	}
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
 
+		return Hurttime;
+	}
 	public int getNumMinions(){
 		return this.dataWatcher.getWatchableObjectInt(DATA_MINION_COUNT);
 	}

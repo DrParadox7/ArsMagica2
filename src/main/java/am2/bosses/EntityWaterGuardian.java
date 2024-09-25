@@ -4,6 +4,7 @@ import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIChaosWaterBolt;
 import am2.bosses.ai.EntityAICloneSelf;
 import am2.bosses.ai.EntityAISpinAttack;
+import am2.damage.DamageSourceFire;
 import am2.damage.DamageSourceFrost;
 import am2.damage.DamageSourceLightning;
 import am2.items.ItemsCommonProxy;
@@ -54,6 +55,7 @@ public class EntityWaterGuardian extends AM2Boss{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian1 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(10);
 			}
 		}
 	}
@@ -187,7 +189,13 @@ public class EntityWaterGuardian extends AM2Boss{
 
 		return damageAmt;
 	}
-
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
+	if (source instanceof DamageSourceLightning){
+			Hurttime = 20;
+		}
+		return Hurttime;
+	}
 	@Override
 	public boolean isActionValid(BossActions action){
 		if (uberSpinAvailable && action != BossActions.CASTING) return false;

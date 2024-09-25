@@ -59,6 +59,7 @@ public class EntityWinterGuardian extends AM2Boss{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian8 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(80);
 			}
 		}
 	}
@@ -190,7 +191,13 @@ public class EntityWinterGuardian extends AM2Boss{
 			damageAmt *= 2;
 		return damageAmt;
 	}
-
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
+		if (source instanceof DamageSourceFire || source.isFireDamage()){
+			Hurttime = 20;
+		}
+		return Hurttime;
+	}
 	@Override
 	protected String getHurtSound(){
 		return "arsmagica2:mob.winterguardian.hit";

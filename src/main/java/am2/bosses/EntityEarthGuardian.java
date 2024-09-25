@@ -4,6 +4,7 @@ import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.EntityAISmash;
 import am2.bosses.ai.EntityAIStrikeAttack;
 import am2.bosses.ai.EntityAIThrowRock;
+import am2.damage.DamageSourceFire;
 import am2.damage.DamageSourceFrost;
 import am2.damage.DamageSourceLightning;
 import am2.damage.DamageSources;
@@ -46,6 +47,7 @@ public class EntityEarthGuardian extends AM2Boss{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian2 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(20);
 			}
 		}
 	}
@@ -126,7 +128,15 @@ public class EntityEarthGuardian extends AM2Boss{
 		}
 		return damageAmt;
 	}
-
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
+		if (source instanceof DamageSourceLightning){
+			Hurttime = 45;
+		}else if (source instanceof DamageSourceFrost){
+			Hurttime = 20;
+		}
+		return Hurttime;
+	}
 	@Override
 	protected String getHurtSound(){
 		return "arsmagica2:mob.earthguardian.hit";

@@ -28,6 +28,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.FakePlayer;
 
 import java.util.ArrayList;
 
@@ -188,8 +190,12 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 				}
 			}
 		}
+		if (par1DamageSource.getSourceOfDamage()instanceof FakePlayer){
+			return false;
+		}
 
-		if (par2 > 7) par2 = 7;
+
+		par2 = Math.max(7,MathHelper.sqrt_float(par2));
 
 		par2 = modifyDamageAmount(par1DamageSource, par2);
 
@@ -199,12 +205,13 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 		}
 
 		if (super.attackEntityFrom(par1DamageSource, par2)){
-			this.hurtResistantTime = 40;
+			int par3 = 40;
+			this.hurtResistantTime = modifyHurtTime(par1DamageSource,par3);
 			return true;
 		}
 		return false;
 	}
-
+	protected abstract int modifyHurtTime(DamageSource source, int HurtTime);
 	protected abstract float modifyDamageAmount(DamageSource source, float damageAmt);
 
 	public boolean attackEntityFromPart(EntityDragonPart part, DamageSource source, float damage){

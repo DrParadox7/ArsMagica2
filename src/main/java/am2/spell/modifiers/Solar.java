@@ -48,8 +48,9 @@ public class Solar implements ISpellModifier{
 	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity, EntityLivingBase caster){
 		World world = caster.worldObj;
 		float multiplier = 2.5f;
-
-		if (caster.dimension == -1)
+		if (caster == null)
+			return quantity * multiplier;
+		else if (caster.dimension == -1)
 			multiplier = 1.5f;
 		else if (!world.provider.hasNoSky && world.isDaytime()){
 			double time = world.getWorldTime() % 24000;

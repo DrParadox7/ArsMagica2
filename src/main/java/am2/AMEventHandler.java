@@ -19,6 +19,8 @@ import am2.buffs.BuffList;
 import am2.buffs.BuffStatModifiers;
 import am2.damage.DamageSourceFire;
 import am2.damage.DamageSources;
+import am2.enchantments.AMEnchantmentHelper;
+import am2.enchantments.AMEnchantments;
 import am2.entities.EntityFlicker;
 import am2.entities.EntityHallucination;
 import am2.entities.EntitySpecificHallucinations;
@@ -44,6 +46,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityBoat;
@@ -1504,7 +1507,8 @@ public class AMEventHandler{
 				event.setCanceled(true);
 				return;
 			}
-		} else if (!event.source.isMagicDamage() && event.entityLiving instanceof EntityPlayer && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3] != null && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3].getItem() == ItemsCommonProxy.archmageHood) {
+		}
+		else if (!event.source.isMagicDamage() && event.entityLiving instanceof EntityPlayer && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3] != null && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3].getItem() == ItemsCommonProxy.archmageHood) {
 			Entity attacker = event.source.getEntity();
 			if (attacker != null) {
 				attacker.attackEntityFrom(new DamageSourceFire(event.entityLiving), event.entityLiving.worldObj.rand.nextInt(3));
@@ -1546,6 +1550,8 @@ public class AMEventHandler{
 				event.source.getEntity().setFire(8);
 			}
 		}
+
+
 
 		if (event.entityLiving instanceof EntityPlayer && ((EntityPlayer)event.entityLiving).inventory.armorInventory[2] != null){
 			if (((EntityPlayer)event.entityLiving).inventory.armorInventory[2].getItem() == ItemsCommonProxy.archmageArmor){

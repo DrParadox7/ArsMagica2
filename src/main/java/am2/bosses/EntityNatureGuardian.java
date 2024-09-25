@@ -41,7 +41,17 @@ public class EntityNatureGuardian extends AM2Boss{
 		this.setSize(1.65f, 4.75f);
 		hasSickle = true;
 	}
+	@Override
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
+		if (super.attackEntityFrom(par1DamageSource, par2) && par1DamageSource instanceof DamageSourceFire || par1DamageSource instanceof DamageSourceFrost ){
+			this.hurtResistantTime = 15;
+			return true;
+		}
+		else if (super.attackEntityFrom(par1DamageSource, par2))
+			this.hurtResistantTime = 30;
+				return true;
 
+	}
 	@Override
 	public void onDeath(DamageSource src)
 	{
@@ -51,6 +61,7 @@ public class EntityNatureGuardian extends AM2Boss{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian6 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(60);
 			}
 		}
 	}
@@ -179,6 +190,15 @@ public class EntityNatureGuardian extends AM2Boss{
 			damageAmt *= 1.5f;
 		}
 		return damageAmt;
+	}
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
+		if (source instanceof DamageSourceFire || source.isFireDamage()){
+			Hurttime = 15;
+		}else if (source instanceof DamageSourceFrost){
+			Hurttime = 20;
+		}
+		return Hurttime;
 	}
 
 	@Override

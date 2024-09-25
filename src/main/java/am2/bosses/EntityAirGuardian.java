@@ -5,6 +5,8 @@ import am2.api.math.AMVector3;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.EntityAIHurricane;
 import am2.bosses.ai.EntityAISpawnWhirlwind;
+import am2.damage.DamageSourceFire;
+import am2.damage.DamageSourceFrost;
 import am2.damage.DamageSourceLightning;
 import am2.entities.ai.EntityAIGuardSpawnLocation;
 import am2.items.ItemsCommonProxy;
@@ -49,6 +51,7 @@ public class EntityAirGuardian extends AM2Boss{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian3 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(30);
 			}
 		}
 	}
@@ -189,7 +192,15 @@ public class EntityAirGuardian extends AM2Boss{
 			damageAmt *= 2;
 		return damageAmt;
 	}
-
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
+		if (source.isMagicDamage()){
+			Hurttime = 45;
+		}else if (source instanceof DamageSourceLightning){
+			Hurttime = 15;
+		}
+		return Hurttime;
+	}
 	@Override
 	protected String getHurtSound(){
 		return "arsmagica2:mob.airguardian.hit";

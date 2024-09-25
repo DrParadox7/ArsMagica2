@@ -3,6 +3,10 @@ package am2.bosses;
 import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.ISpellCastCallback;
+import am2.buffs.BuffEffectSilence;
+import am2.buffs.BuffList;
+import am2.damage.DamageSourceFire;
+import am2.damage.DamageSourceFrost;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMNetHandler;
 import am2.playerextensions.ExtendedProperties;
@@ -12,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -45,6 +50,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian4 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(40);
 			}
 		}
 	}
@@ -105,7 +111,12 @@ public class EntityArcaneGuardian extends AM2Boss{
 		}
 
 	}
+	@Override
+	public void addPotionEffect(PotionEffect effect){
+		if (effect.getPotionID() == BuffList.silence.id)
+			super.addPotionEffect(effect);
 
+	}
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		if (par1DamageSource.getSourceOfDamage() == null){
@@ -160,9 +171,18 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 	@Override
 	protected float modifyDamageAmount(DamageSource source, float damageAmt){
+		if (isPotionActive(BuffList.silence.id)){
+			damageAmt *= 2;
+		}
 		return damageAmt;
 	}
-
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
+		if  (isPotionActive(BuffList.silence.id)){
+			Hurttime = 15;
+		}
+		return Hurttime;
+	}
 	private boolean isWithin(float source, float target, float tolerance){
 		return source + tolerance > target && source - tolerance < target;
 	}

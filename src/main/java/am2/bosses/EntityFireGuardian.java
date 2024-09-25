@@ -2,6 +2,7 @@ package am2.bosses;
 
 import am2.AMCore;
 import am2.bosses.ai.*;
+import am2.damage.DamageSourceFire;
 import am2.damage.DamageSourceFrost;
 import am2.damage.DamageSources;
 import am2.items.ItemsCommonProxy;
@@ -52,6 +53,7 @@ public class EntityFireGuardian extends AM2Boss{
 			if (!worldObj.isRemote){
 				ExtendedProperties.For(p).guardian9 = true;
 				ExtendedProperties.For(p).setUpdateFlag(UPD_CURRENT_MANA_FATIGUE);
+				ExtendedProperties.For(p).addMagicXP(90);
 			}
 		}
 	}
@@ -214,7 +216,15 @@ public class EntityFireGuardian extends AM2Boss{
 			damageAmt /= 3;
 		return damageAmt;
 	}
-
+	@Override
+	protected int modifyHurtTime(DamageSource source, int Hurttime){
+		if (source == DamageSource.drown){
+			Hurttime = 15;
+		}else if (source instanceof DamageSourceFrost){
+			Hurttime = 45;
+		}
+		return Hurttime;
+	}
 	@Override
 	protected String getHurtSound(){
 		return "arsmagica2:mob.fireguardian.hit";
