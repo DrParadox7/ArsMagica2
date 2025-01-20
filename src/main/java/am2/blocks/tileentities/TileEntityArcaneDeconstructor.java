@@ -17,6 +17,7 @@ import am2.utility.RecipeUtilities;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDragonEgg;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -201,7 +202,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 
 				for (Object o : recipeParts){
 					ItemStack stack = objectToItemStack(o);
-					if (stack != null && !stack.getItem().hasContainerItem(stack)){
+					if (stack != null && !stack.getItem().hasContainerItem(stack) && !stack.getItem().getUnlocalizedName().contains("dragon_egg")){
 						stack.stackSize = 1;
 						recipeItems.add(stack.copy());
 					}
