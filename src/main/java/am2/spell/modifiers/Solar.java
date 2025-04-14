@@ -81,5 +81,9 @@ public class Solar implements ISpellModifier{
 		}
 		return 1.2f; //bonus at 90% = 660%
 	}
+	@Override
+	public boolean canStack(){
+		return false;
+	}
 
 }

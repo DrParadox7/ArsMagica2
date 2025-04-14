@@ -35,8 +35,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SpellUtils implements ISpellUtils{
 
@@ -123,10 +126,21 @@ public class SpellUtils implements ISpellUtils{
 	public double getModifiedDouble_Mul(double defaultValue, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage, SpellModifiers check){
 		int ordinalCount = 0;
 		double modifiedValue = defaultValue;
+		Set<Integer> noStack = new HashSet<>();
+
 		for (ISpellModifier modifier : getModifiersForStage(stack, stage)){
 			if (modifier.getAspectsModified().contains(check)){
-				byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
-				modifiedValue *= modifier.getModifier(check, caster, target, world, meta);
+				int modifierID = modifier.getID();
+
+				if (!noStack.contains(modifierID)){
+
+					if (!modifier.canStack()){
+						noStack.add(modifierID);
+					}
+
+					byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
+					modifiedValue *= modifier.getModifier(check, caster, target, world, meta);
+				}
 			}
 		}
 
@@ -145,10 +159,22 @@ public class SpellUtils implements ISpellUtils{
 	public int getModifiedInt_Mul(int defaultValue, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage, SpellModifiers check){
 		int ordinalCount = 0;
 		int modifiedValue = defaultValue;
+		Set<Integer> noStack = new HashSet<>();
+
 		for (ISpellModifier modifier : getModifiersForStage(stack, stage)){
+
 			if (modifier.getAspectsModified().contains(check)){
-				byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
-				modifiedValue *= modifier.getModifier(check, caster, target, world, meta);
+				int modifierID = modifier.getID();
+
+				if (!noStack.contains(modifierID)){
+
+					if (!modifier.canStack()){
+						noStack.add(modifierID);
+					}
+
+					byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
+					modifiedValue *= modifier.getModifier(check, caster, target, world, meta);
+				}
 			}
 		}
 
@@ -167,10 +193,21 @@ public class SpellUtils implements ISpellUtils{
 	public double getModifiedDouble_Mul(SpellModifiers check, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage){
 		int ordinalCount = 0;
 		double modifiedValue = check.defaultValue;
+		Set<Integer> noStack = new HashSet<>();
+
 		for (ISpellModifier modifier : getModifiersForStage(stack, stage)){
 			if (modifier.getAspectsModified().contains(check)){
-				byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
-				modifiedValue *= modifier.getModifier(check, caster, target, world, meta);
+				int modifierID = modifier.getID();
+
+				if (!noStack.contains(modifierID)){
+
+					if (!modifier.canStack()){
+						noStack.add(modifierID);
+					}
+
+					byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
+					modifiedValue *= modifier.getModifier(check, caster, target, world, meta);
+				}
 			}
 		}
 
@@ -189,10 +226,21 @@ public class SpellUtils implements ISpellUtils{
 	public int getModifiedInt_Mul(SpellModifiers check, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage){
 		int ordinalCount = 0;
 		int modifiedValue = check.defaultValueInt;
+		Set<Integer> noStack = new HashSet<>();
+
 		for (ISpellModifier modifier : getModifiersForStage(stack, stage)){
 			if (modifier.getAspectsModified().contains(check)){
-				byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
-				modifiedValue *= modifier.getModifier(check, caster, target, world, meta);
+				int modifierID = modifier.getID();
+
+				if (!noStack.contains(modifierID)){
+
+					if (!modifier.canStack()){
+						noStack.add(modifierID);
+					}
+
+					byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
+					modifiedValue *= modifier.getModifier(check, caster, target, world, meta);
+				}
 			}
 		}
 
@@ -211,10 +259,21 @@ public class SpellUtils implements ISpellUtils{
 	public double getModifiedDouble_Add(double defaultValue, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage, SpellModifiers check){
 		int ordinalCount = 0;
 		double modifiedValue = defaultValue;
+		Set<Integer> noStack = new HashSet<>();
+
 		for (ISpellModifier modifier : getModifiersForStage(stack, stage)){
 			if (modifier.getAspectsModified().contains(check)){
-				byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
-				modifiedValue += modifier.getModifier(check, caster, target, world, meta);
+				int modifierID = modifier.getID();
+
+				if (!noStack.contains(modifierID)){
+
+					if (!modifier.canStack()){
+						noStack.add(modifierID);
+					}
+
+					byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
+					modifiedValue += modifier.getModifier(check, caster, target, world, meta);
+				}
 			}
 		}
 
@@ -232,13 +291,22 @@ public class SpellUtils implements ISpellUtils{
 
 	public int getModifiedInt_Add(int defaultValue, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage, SpellModifiers check){
 		int ordinalCount = 0;
-
 		double modifiedValue = defaultValue;
+		Set<Integer> noStack = new HashSet<>();
 
 		for (ISpellModifier modifier : getModifiersForStage(stack, stage)){
 			if (modifier.getAspectsModified().contains(check)){
-				byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
-				modifiedValue += modifier.getModifier(check, caster, target, world, meta);
+				int modifierID = modifier.getID();
+
+				if (!noStack.contains(modifierID)){
+
+					if (!modifier.canStack()){
+						noStack.add(modifierID);
+					}
+
+					byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
+					modifiedValue += modifier.getModifier(check, caster, target, world, meta);
+				}
 			}
 		}
 
@@ -257,10 +325,21 @@ public class SpellUtils implements ISpellUtils{
 	public double getModifiedDouble_Add(SpellModifiers check, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage){
 		int ordinalCount = 0;
 		double modifiedValue = check.defaultValue;
+		Set<Integer> noStack = new HashSet<>();
+
 		for (ISpellModifier modifier : getModifiersForStage(stack, stage)){
 			if (modifier.getAspectsModified().contains(check)){
-				byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
-				modifiedValue += modifier.getModifier(check, caster, target, world, meta);
+				int modifierID = modifier.getID();
+
+				if (!noStack.contains(modifierID)){
+
+					if (!modifier.canStack()){
+						noStack.add(modifierID);
+					}
+
+					byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
+					modifiedValue += modifier.getModifier(check, caster, target, world, meta);
+				}
 			}
 		}
 
@@ -279,10 +358,21 @@ public class SpellUtils implements ISpellUtils{
 	public int getModifiedInt_Add(SpellModifiers check, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage){
 		int ordinalCount = 0;
 		int modifiedValue = check.defaultValueInt;
+		Set<Integer> noStack = new HashSet<>();
+
 		for (ISpellModifier modifier : getModifiersForStage(stack, stage)){
 			if (modifier.getAspectsModified().contains(check)){
-				byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
-				modifiedValue += modifier.getModifier(check, caster, target, world, meta);
+				int modifierID = modifier.getID();
+
+				if (!noStack.contains(modifierID)){
+
+					if (!modifier.canStack()){
+						noStack.add(modifierID);
+					}
+
+					byte[] meta = getModifierMetadataFromStack(stack, modifier, stage, ordinalCount++);
+					modifiedValue += modifier.getModifier(check, caster, target, world, meta);
+				}
 			}
 		}
 
@@ -383,7 +473,7 @@ public class SpellUtils implements ISpellUtils{
 			for (ISpellComponent component : components){
 				ItemStack[] componentReagents = component.reagents(caster);
 				if (componentReagents != null)
-					for (ItemStack reagentStack : componentReagents) reagents.add(reagentStack);
+					reagents.addAll(Arrays.asList(componentReagents));
 				stageManaCost += component.manaCost(caster);
 				stageBurnout += component.burnout(caster);
 			}

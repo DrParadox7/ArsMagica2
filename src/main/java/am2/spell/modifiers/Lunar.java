@@ -85,4 +85,9 @@ public class Lunar implements ISpellModifier{
 		return 1.2f; //bonus at 100% = 207%
 	}
 
+	@Override
+	public boolean canStack(){
+		return false;
+	}
+
 }

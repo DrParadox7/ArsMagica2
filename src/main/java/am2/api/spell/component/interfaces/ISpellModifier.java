@@ -45,4 +45,8 @@ public interface ISpellModifier extends ISpellPart{
 	 * @param matchedRecipe The items that were added to the crafting altar which resulted in the matching of the recipe.
 	 */
 	public byte[] getModifierMetadata(ItemStack[] matchedRecipe);
+
+	default boolean canStack(){
+		return true;
+	}
 }
