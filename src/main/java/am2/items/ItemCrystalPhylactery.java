@@ -1,5 +1,6 @@
 package am2.items;
 
+import am2.AMCore;
 import am2.texture.ResourceManager;
 import am2.utility.EntityUtilities;
 import cpw.mods.fml.relauncher.Side;
@@ -21,7 +22,6 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class ItemCrystalPhylactery extends ArsMagicaItem{
 
@@ -29,6 +29,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 	private IIcon[] icons;
 
 	private final HashMap<String, Integer> spawnableEntities;
+	static final boolean enabled_summon = AMCore.skillConfig.isSkillEnabled("Summon");;
 
 	public static final int META_EMPTY = 0;
 	public static final int META_QUARTER = 1;
@@ -172,7 +173,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack stack, int pass){
-		if (pass == 0){
+		if (enabled_summon && pass == 0){
 			int color = 0x0000FF;
 			if (stack.hasTagCompound()){
 				String className = stack.stackTagCompound.getString("SpawnClassName");
@@ -189,6 +190,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 	}
 
 	public void getSpawnableEntities(World world){
+		if (!enabled_summon) return;
 		for (Object clazz : EntityList.classToStringMapping.keySet()){
 			if (EntityCreature.class.isAssignableFrom((Class)clazz)){
 				try{
